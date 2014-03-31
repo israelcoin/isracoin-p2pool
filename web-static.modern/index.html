@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- This script was written by Alexander Zschach <alex . zschach.net>
+         https://github.com/johndoe75/p2pool-node-status
+         Bugfixes, additional miner info display and other improvements
+         by Claus Herwig <c.herwig . checon.de> for VTC p2pool
+         https://github.com/donSchoe/p2pool-vtc
+    -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        
+    <title>p2pool</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,300italic,400,400italic,100,100italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-dateFormat.min.js"></script>
+
+    <script src="js/highcharts.js"></script>
+    <script src="js/exporting.js"></script>
+
+    <script src="js/util.js"></script>
+    <script src="js/graph.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="grid.css" rel="stylesheet">
+
+    <style type="text/css">
+      body {
+        font-family: 'Roboto', Helvetica, sans-serif;
+        font-size: 14px;
+      }
+    </style>
+
+  </head>
+
+  <body>
+   <div class="navbar navbar-default">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+	
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="navbar-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+<img src="img/digi.png" style="float:left;height:40px;margin-right:4px;width:40px;">
+          <a class="navbar-brand" href="/">OmarG's GPUcoin P2Pool (<span class="symbol upper"></span>)</a>
+		   </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">P2Pool Stats</a></li>
+
+                 <li><a href="graphs.html">Graphs</a><li>
+
+              <li><a href="http://www.gpucoin.net//">What is GPUcoin?</a></li>
+
+              <li><a href="https://bittrex.com/Market/Index?MarketName=BTC-GPUC">GPUcoin Exchange (Bittrex)</a></li>
+
+              <li><a href="https://www.twitter.com/OmarGPools">Contact (Twitter)</a></li>
+	   <li class="dropdown">
+			<a href="http://www.omargpools.ca/" class="dropdown-toggle" data-toggle="dropdown">OmarG's P2Pools <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Dropdown header</li>
+          <li><a href="#">Separated link</a></li>
+          <li><a href="#">One more separated link</a></li>
+		  </ul>
+        </div><!--/.nav-collapse -->
+    <!--<div id='ribbon'>
+      <a href="https://github.com/johndoe75/p2pool-node-status">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="img/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
+      </a>
+    </div>-->
+
+    <div class="container">
+      <div class="page-header">
+        <h1>p2pool (<span class='currency'></span>) &dash; node dashboard</h1>
+        <b>
+          <small>
+            Node: <span class='node'></span>&nbsp;&dash;
+            Updated: <span id='updated'></span>
+          </small>
+        </b>
+      </div>
+
+      <div id='node_alerts' class="alert alert-danger hidden"></div>
+
+      <!-- We should have a possiblity showing other miners on our node what
+           happened or if we have other things to tell them. -->
+      <div class="alert alert-danger">
+        <p>Special miner + config needed: "vertminer --scrypt-vert -Q 0 -o <span class='node'></span> -u
+        Your<span class='currency'></span>PayoutAddress -p x"</p>
+      </div>
+      <div class="alert alert-info">
+        <!--<p>message</p>-->
+      </div>
+
+      <center>
+        <div class='container'>
+          <button id='hour' type="button" class="hashrate btn btn-info">Hour</button>
+          <button id='day' type="button" class="hashrate btn btn-info">Day</button>
+          <button id='week' type="button" class="hashrate btn btn-info">Week</button>
+          <button id='month' type="button" class="hashrate btn btn-info">Month</button>
+          <button id='year' type="button" class="hashrate btn btn-info">Year</button>
+        </div>
+      </center>
+      <div id='graph'></div>
+	  
+	    <div class="well" style="margin:0 auto;margin-top:20px;width:1000px">
+        <table id="specs" class="table table-striped" style="width:1000px"><tbody>
+<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+  <li class="active"><a href="#home" data-toggle="tab">Getting Started</a></li>
+  <li class=""><a href="#profile" data-toggle="tab">P2Pool PPLNS</a></li>
+  <li class=""><a href="#profile1" data-toggle="tab">P2Pool Tips</a></li>
+    <li class=""><a href="#profile2" data-toggle="tab">Manual Share Difficulty</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Dropdown <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#dropdown1" data-toggle="tab">Action</a></li>
+      <li class="divider"></li>
+      <li><a href="#dropdown2" data-toggle="tab">Another action</a></li>
+    </ul>
+  </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade active in" id="home">
+   <div class="well well-lg">
+   <div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">    <p><center><h4><i>OmarG's GPUcoin P2Pool Charges a 1% Pool Fee</i></h4></h3>
+  </div>
+  <div class="panel-body">
+    <center><h4>Hosted in Hamilton, Ontario <img src="img/Canada.gif" width="5%" height="5%"/> </center></h4> 
+
+<center><h4>How to Connect</center></h4>
+<center><h4>URL: OmarGPools.ca:9404</center></h4>
+<center><h4>(Backup URL: OmarGPools.co:9404)</center></h4>
+<center><h4>Username: Your GPUcoin Payout Address
+</center></h4>
+<center><h4>
+Password: x<center><h4></p>
+  </div>
+  </div>
+</div>
+
+
+   </div>
+  <div class="tab-pane fade" id="profile">
+   <div class="well well-lg">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h4 class="panel-info">    <p><center><h4><i>Payment System</i></h4></h4>
+  </div>
+  <div class="panel-body">
+   <p><center><h4>It takes about 48 Hours to have full payments with the PPLNS system P2Pool uses. </h4>
+<h4>	There is also variance in P2Pool and since the P2Pool network is a small percentage of the whole network you'll only be paid when the P2Pool network finds a block.</h4>
+<h4> The payments in the long term should be higher with P2Pool due to the extra transaction fees given to P2Pool workers.</h4>
+</center>
+	</p>
+	</div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="tab-pane fade" id="profile1">
+   <div class="well well-lg">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h4 class="panel-info">    <p><center><h4><i>P2Pool Tips</i></h4></h4>
+  </div>
+  <div class="panel-body">
+   <p><center><h4>Efficiency is a measure of our payouts versus the rest of the P2Pool network</h4>
+   <h4>DOA shares payout and do not negatively affect payout as long as your DOA is below the total DOA</h4>
+<h4> To reduce stales, reduce your intensity. The payouts are higher when keeping intensity below 18 due to more accepted shares.</h4>
+<h4> Use the follow settings: --queue 0 --scan-time 1 -- expiry 1</h4>
+<h4> P2Pool shares expire within 10 seconds, this is why you see "stratum requesting work restart" so often</h4>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="profile2">
+   <div class="well well-lg">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h4 class="panel-info">    <p><center><h4><i>Manual Share Difficulty</i></h4></h4>
+  </div>
+  <div class="panel-body">
+   <p><center>Reccomended Share Difficulty</p>
+<p>1 +0.00000116</p>
+<p>5 +0.00000582</p>
+<p>10 +0.00001164</p>
+<p>50 +0.00005821</p>
+<p>100 +0.00011641</p>
+<p>250 +0.00029103</p>
+<p>500 +0.00058207</p>
+<p>750 +0.00087310</p>
+<p>1000 +0.00116414</p>
+
+<h4>Add this number to the end of your username (wallet address)</h4>
+<h4>Example: WalletAddress+0.00116414</h4>
+
+</div>
+</div>
+</center>
+	</p>
+	</div>
+  </div>
+  </div>
+
+</div>
+
+      <h4>Status</h4>
+      <table id='status' class="table table-hover" border='0'>
+        <tr>
+          <td width='25%'>Local rate:</td>
+          <td width='25%' class='text-right'><span id='local_rate'class="label label-success"></span></td>
+          <td width='25%'>Shares:</td>
+          <td width='25%' class='text-right'><span id='shares' class="label label-success"></span></td>
+        </tr>
+        <tr>
+          <td width='25%'>Global P2Pool Rate:</td>
+          <td width='25%' class='text-right'><span id='global_rate'></span></td>
+          <td width='25%'>Share difficulty (P2Pool Minimum):</td>
+          <td width='25%' class='text-right'><span id='share_difficulty'></span></td>
+        </tr>
+        <tr>
+          <td width='25%'><span class='currency'></span> Network Hashrate (Estimate):</td>
+          <td width='25%' class='text-right'><span id='network_rate'></span></td>
+          <td width='25%'>Network Block Difficulty:</td>
+          <td width='25%' class='text-right'><span id='block_difficulty'></span></td>
+        </tr>
+        <tr>
+          <td width='25%'>Current block value:</td>
+          <td width='25%' class='text-right'><span id='block_value'></span></td>
+          <td width='25%'>Expected time to share (this node):</td>
+          <td width='25%' class='text-right'><span id='expected_time_to_share'></span></td>
+        </tr>
+        <tr>
+        <!--  <td width='25%'>Payout if a block were found NOW:</td>
+          <td width='25%' class='text-right'><span id='payout_now'></span></td>-->
+          <td width='25%'>Node peers:</td>
+          <td width='25%' class='text-right'>
+            <i class='fa fa-sign-in fa-fw'></i>
+            <span id='peers_in'></span>
+            /
+            <i class='fa fa-sign-out fa-fw'></i>
+            <span id='peers_out'></span>
+          </td>
+          <td width='25%'>Expected time to block (pool):</td>
+          <td width='25%' class='text-right'><span id='expected_time_to_block'></span></td>
+        </tr>
+        <tr>
+          <td width='25%'>Node fee:</td>
+          <td width='25%' class='text-right'><span id='node_fee'></span></td>
+          <td width='25%'>Node uptime:</td>
+          <td width='25%' class='text-right'><span id='node_uptime'></span></td>
+        </tr>
+        <tr>
+          <td width='25%'>Node p2pool version:</td>
+          <td width='25%' class='text-right'><span id='p2pool_version'></span></td>
+          <td width='25%'>Protocol version:</td>
+          <td width='25%' class='text-right'><span id='protocol_version'></span></td>
+        </tr>
+        <!--<tr>
+          <td width='25%'>Node donation:</td>
+          <td width='25%' class='text-right'><span id='node_donation'></span></td>
+        </tr>-->
+      </table>
+
+      <h4>Active miners on this node</h4>
+      <table class="table table-hover">
+        <thead><tr>
+          <th class='text-left'><span class='currency'></span> Address</th>
+          <th class='text-right'>Hashrate</th>
+          <th class='text-right'>DOA Hashrate (DOA %)</th>
+          <th class='text-right'>Share difficulty</th>
+          <th class='text-right'>Time to share</th>
+          <th class='text-right'>Predicted payout</th>
+        </tr></thead>
+        <tbody id='active_miners'>
+        </tbody>
+      </table>
+
+      <h5 align="center"><a href="classic">Click here for more detailed stats
+      and graphs (classic p2pool)</a></h5>
+
+      <h4>Recent blocks</h4>
+      <table class="table table-hover">
+        <thead><tr>
+          <th>When</th>
+          <th>Date/Time</th>
+          <th>Number</th>
+          <th>Hash</th>
+          <!--<th>Confirmations</th>-->
+        </tr></thead>
+        <tbody id='recent_blocks'>
+        </tbody>
+      </table>
+	   <div style="border-top: 1px solid #ddd;padding:8px;text-align:center;">
+    <p><code>P2Pool version: <span id="version"></span></code>
+<p><code>Hosted by OmarG</span></code>  
+<p><code>GPUCoin <a href="gpucoin:GLbHuMsm8MEDQNtNy7UCvwRwrjxy18pNnD">GLbHuMsm8MEDQNtNy7UCvwRwrjxy18pNnD</a></code></p>
+<p> <code>BTC <a href="bitcoin:1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG">1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG</a></code></p>
+  </div>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48700221-1', 'omargpools.ca');
+  ga('send', 'pageview');
+
+</script>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+      $(document).trigger('init');
+    });
+
+    // reload timers 
+    var intervalFigures = 30;
+    var intervalGraph = 600;
+    
+    // array defining my addresses for highlighting them
+    var myself= [ ];
+
+    var currency, currency_info, rate, local_stats,
+        global_stats, current_payouts, recent_blocks;
+    var local_hashrate= 0, local_doa_hashrate= 0;
+
+    // ==================================================================
+    // event handlers
+
+    $('#hour.hashrate').click(function(e) {
+      fetchGraph('hour');
+    });
+    $('#day.hashrate').click(function(e) {
+      fetchGraph('day');
+    });
+    $('#week.hashrate').click(function(e) {
+      fetchGraph('week');
+    });
+    $('#month.hashrate').click(function(e) {
+      fetchGraph('month');
+    });
+    $('#year.hashrate').click(function(e) {
+      fetchGraph('year');
+    });
+
+    // ==================================================================
+    // custom event handlers
+
+    // init
+
+    $(document).on('init', function(e, eventInfo) {
+      fetchdata(); fetchBlocks(); fetchGraph('day');
+    });
+
+    $(document).on('update', function(e, eventInfo) {
+      fetchdata();
+      d=new Date()
+      if (((d.getMinutes() * 60 + d.getSeconds()) % intervalGraph) < intervalFigures) {
+        fetchBlocks();
+        graphPeriod=char.title.text.match(/\((.+)\)/)[1] || 'day';
+        fetchGraph(graphPeriod);
+      };
+    });
+
+    // Fills the list of active miners on this node.  I know, there are
+    // zillions of people out there on p2pool.  But I'm typically only
+    // interested to see, who is mining on my node.
+
+    $(document).on('update_miners', function(e, eventInfo) {
+      local_hashrate= 0; local_doa_hashrate= 0;
+      
+      $('#active_miners').empty();
+      
+      $.each(local_stats.miner_hash_rates, function(address, hashrate) {
+        tr= $('<tr/>').attr('id', address);
+
+        // highlight our miner if configured
+        if(myself && myself.length > 0 && $.inArray(address, myself) >= 0) {
+          tr.addClass('warning');
+        }
+
+        link_icon= $('<i/>').attr('class', 'fa fa-external-link fa-fw');
+        blockinfo= $('<a/>')
+          .attr('href', currency_info.address_explorer_url_prefix + address)
+          .attr('target', '_blank').append(link_icon);
+
+        doa= local_stats.miner_dead_hash_rates[address] || 0;
+        doa_prop= (parseFloat(doa) / parseFloat(hashrate)) * 100;
+        
+        local_hashrate+= hashrate;
+        local_doa_hashrate+= doa;
+
+        tr.append($('<td/>').attr('class', 'text-left')
+          .html(address + '&nbsp;').append(blockinfo));
+        tr.append($('<td/>').attr('class', 'text-right')
+          .append(formatHashrate(hashrate)));
+        tr.append($('<td/>').attr('class', 'text-right')
+          .append(formatHashrate(doa) + ' (' + doa_prop.toFixed(2) + '%)'));
+
+        diff= parseFloat(local_stats.miner_last_difficulties[address]) || 0;
+        time_to_share= (parseInt(local_stats.attempts_to_share) / parseInt(hashrate)
+         * (diff / parseFloat(global_stats.min_difficulty))) || 0;
+
+        tr.append($('<td/>').attr('class', 'text-right')
+          .append(diff.toFixed(3) +
+        ' (' + formatInt(diff*65536) + ')'));
+
+        tr.append($('<td/>').attr('class', 'text-right')
+          .append((''+time_to_share).formatSeconds()));
+
+        payout= current_payouts[address];
+
+        if(payout) {
+          td= $('<td/>').attr('class', 'text-right')
+            .text(parseFloat(payout).toFixed(8))
+            .append(' ').append(currency.clone());
+          tr.append(td);
+        }
+        else {
+          tr.append($('<td/>').attr('class', 'text-right')
+            .append($('<i/>').append('no shares yet')));
+        }
+        //$('#'+address).remove();
+        $('#active_miners').append(tr);
+      });
+
+      rate= formatHashrate(local_hashrate)
+        + ' (DOA '
+        + formatHashrate(local_doa_hashrate)
+        + ' / ' + ((local_doa_hashrate / local_hashrate) * 100).toFixed(2)
+        + '%)';
+      //dr="[debug: "+local_hashrate+" "+local_doa_hashrate+"]";        
+      $('#local_rate').text(rate);
+
+      global_doa_rate= global_stats.pool_hash_rate - global_stats.pool_nonstale_hash_rate;
+      global_rate= formatHashrate(global_stats.pool_hash_rate)
+        + ' (DOA '
+        + formatHashrate(global_doa_rate)
+        + ' / ' + ((global_doa_rate / global_stats.pool_hash_rate) * 100).toFixed(2)
+        + '%)';
+      $('#global_rate').text(global_rate);
+
+      $('#network_rate').text(formatHashrate(global_stats.network_hashrate));
+
+      block_diff=global_stats.network_block_difficulty
+      $('#block_difficulty').text(block_diff.toFixed(3) +
+        ' (' + formatInt(block_diff*65536) + ')');
+      
+
+      share_diff=parseFloat(global_stats.min_difficulty);
+      $('#share_difficulty').text(share_diff.toFixed(3) +
+        ' (' + formatInt(share_diff*65536) + ')');
+
+      $('#block_value')
+        .text(parseFloat(local_stats.block_value).toFixed(8))
+        .append(' ').append(currency.clone());
+
+      //$('#node_donation')
+      //  .text(local_stats.donation_proportion + '%');
+      
+      $('#node_fee')
+        .text(local_stats.fee + '%');
+      $('#p2pool_version')
+        .text(local_stats.version);
+      $('#protocol_version')
+        .text(local_stats.protocol_version);
+
+      $('#peers_in').text(local_stats.peers.incoming);
+      $('#peers_out').text(local_stats.peers.outgoing);
+
+      $('#node_uptime').text(('' + local_stats.uptime).formatSeconds());
+
+      if(local_stats.warnings.length > 0) {
+        $('#node_alerts').empty();
+
+        $.each(local_stats.warnings, function(key, warning) {
+          $('#node_alerts').append($('<p/>').append(warning));
+        });
+
+        $('#node_alerts').fadeIn(1000, function() {
+          $(this).removeClass('hidden');
+        });
+      }
+      else {
+        if(!$('#node_alerts').hasClass('hidden'))
+          $('#node_alerts').fadeOut(1000, function() {
+            $(this).addClass('hidden');
+          });
+      }
+
+      $('#shares')
+        .text('Total: ' + local_stats.shares.total
+        + ' (Orphan: ' + local_stats.shares.orphan
+        + ', Dead: ' + local_stats.shares.dead + ')');
+
+      time_to_share= parseInt(local_stats.attempts_to_share) / parseInt(local_hashrate);
+      $('#expected_time_to_share').text((''+time_to_share).formatSeconds());
+      time_to_block= parseInt(local_stats.attempts_to_block) / parseInt(global_stats.pool_hash_rate);
+      $('#expected_time_to_block').text((''+time_to_block).formatSeconds());
+
+      //$('#payout_now').html('&dash;');
+    });
+
+    // Fills the recent block table
+
+    $(document).on('update_blocks', function(e, eventInfo) {
+      $('#recent_blocks').empty();
+      $.each(recent_blocks, function(key, block) {
+        ts= block.ts; num= block.number; hash= block.hash;
+
+        // link to blockchain.info for the given hash
+        blockinfo= $('<a/>')
+          .attr('href', currency_info.block_explorer_url_prefix + hash)
+          .attr('target', '_blank').text(hash);
+
+        tr= $('<tr/>').attr('id', num);
+        tr.append($('<td/>').append($.format.prettyDate(new Date(ts * 1000))));
+        tr.append($('<td/>').append($.format.date(new Date(ts * 1000))));
+        tr.append($('<td/>').append(num));
+        tr.append($('<td/>').append(blockinfo));
+        //tr.append($('<td/>').html('&dash;'));
+        $('#recent_blocks').append(tr);
+      });
+    });
+
+    // Places the currency this node is mining in the page header.  If it's
+    // Bitcoin, use the fontawesome BTC icon.
+    
+    //doing some other init here
+
+    var set_currency_symbol= true;
+    $(document).on('update_currency', function(e, eventInfo) {
+      if(currency_info.symbol === 'BTC') {
+        // use fontawesome BTC symbol
+        currency= $('<i/>').attr('class', 'fa fa-btc fa-fw');
+      }
+      else { currency= $('<span/>').append(currency_info.symbol); }
+
+      if(set_currency_symbol) {
+        $('.currency')
+          .append(currency);
+        $(document).attr('title','p2pool - '+currency_info.symbol+' - '+location.host);
+        
+        $('.node')
+          .append(location.host);
+          
+        set_currency_symbol= false;
+      }
+    });
+
+    // Updates the 'Updated:' field in page header
+
+    $(document).on('update_time', function(e, eventInfo) {
+      dts= $.format.date(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      $('#updated').text(dts);
+    });
+
+    // ==================================================================
+
+    var fetchdata= function() {
+      $.getJSON('/rate', function(data) {
+        if(data) rate= data;
+
+        $.getJSON('/web/currency_info', function(data) {
+          currency_info= data;
+          $(document).trigger('update_currency');
+
+          $.getJSON('/local_stats', function(data) {
+            if(data) local_stats= data;
+
+            $.getJSON('/current_payouts', function(data) {
+              if(data) current_payouts= data;
+
+              $.getJSON('/global_stats', function(data) {
+                if(data) global_stats= data;
+                $(document).trigger('update_miners');
+                $(document).trigger('update_time');
+              });
+            });
+          });
+        });
+      });
+    };
+
+    var fetchBlocks= function() {
+      $.getJSON('/web/currency_info', function(data) {
+        currency_info= data;
+        $.getJSON('/recent_blocks', function(data) {
+          if(data) recent_blocks= data;
+          $(document).trigger('update_blocks');
+        });
+      });
+    }
+
+    var fetchGraph= function(interval) {
+      //console.log(interval);
+      var graph_hashrate= [], graph_doa_hashrate= [];
+
+      $.getJSON('/web/graph_data/local_hash_rate/last_' + interval, function(data) {
+        $.each(data, function(key, value) {
+          el= []; el.push(parseInt(value[0]) * 1000,
+            parseFloat(value[1]));
+          graph_hashrate.push(el);
+        });
+        graph_hashrate.sort();
+        $.getJSON('/web/graph_data/local_dead_hash_rate/last_' + interval, function(data) {
+          $.each(data, function(key, value) {
+            el= []; el.push(parseInt(value[0]) * 1000,
+              parseFloat(value[1]));
+            graph_doa_hashrate.push(el);
+          });
+          graph_doa_hashrate.sort();
+          draw(graph_hashrate, graph_doa_hashrate, interval);
+        })
+      })
+    }
+
+    // Let the GitHub ribbon fade out and be removed after 5 seconds.
+
+    //(setTimeout(function() {
+    //  $('#ribbon').fadeOut(1000, function() {
+    //    this.remove();
+    //  });
+    //}, intervalFigures * 1000);
+
+    setInterval(function() {
+      $(document).trigger('update');
+    }, intervalFigures * 1000);
+
+    </script>
+  </body>
+</html>
