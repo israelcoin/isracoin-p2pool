@@ -38,7 +38,7 @@ Then run your miner program, connecting to 127.0.0.1 on port 1948 with any
 username and password.
 
 If you are behind a NAT, you should enable TCP port forwarding on your
-router. Forward port 9333 to the host running P2Pool.
+router. Forward port 1948 and 1947 to the host running P2Pool.
 
 Run for additional options.
 
@@ -56,12 +56,12 @@ Alternate web front end :
 -------------------------
 * https://github.com/hardcpp/P2PoolExtendedFrontEnd
 
-Notes for Litecoin:
+Notes for Isracoin:
 =========================
 Requirements:
 -------------------------
-In order to run P2Pool with the Litecoin network, you would need to build and install the
-ltc_scrypt module that includes the scrypt proof of work code that Litecoin uses for hashes.
+In order to run P2Pool with the Isracoin network, you would need to build and install the
+ltc_scrypt module that includes the scrypt proof of work code that Isracoin uses for hashes.
 
 Linux:
 
