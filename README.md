@@ -1,7 +1,7 @@
 Modified p2pool-13.4+ to run with New Alt Coin Releases
 -------------------------
 
-Bitcoin	1L4BQGWNvHuprBn4ogyAggLVbcLKJTe8Xj	  
+Bitcoin	1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG
 
 
  P2Pool README:
@@ -34,7 +34,7 @@ configurations, using P2Pool should be as simple as:
 
     python run_p2pool.py
 
-Then run your miner program, connecting to 127.0.0.1 on port 9332 with any
+Then run your miner program, connecting to 127.0.0.1 on port 1948 with any
 username and password.
 
 If you are behind a NAT, you should enable TCP port forwarding on your
@@ -46,7 +46,7 @@ Run for additional options.
 
 Donations towards further development:
 -------------------------
-    1HNeqi3pJRNvXybNX4FKzZgYJsdTSqJTbk
+    1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG 
 
 Official wiki :
 -------------------------
@@ -92,21 +92,6 @@ http://stackoverflow.com/questions/6034390/compiling-with-cython-and-mingw-produ
 
 Running P2Pool:
 -------------------------
-Run P2Pool with the "--net litecoin" option.
-Run your miner program, connecting to 127.0.0.1 on port 9327.
-Forward port 9338 to the host running P2Pool.
-
-Litecoin's use of ports 9332 and 9332 conflicts with P2Pool running on
-the Bitcoin network. To avoid problems, add these lines to litecoin.conf
-and restart litecoind:
-
-    rpcport=10332
-    port=10333
-
-Sponsors:
--------------------------
-
-Thanks to:
-* The Bitcoin Foundation for its generous support of P2Pool
-* The Litecoin Project for its generous donations to P2Pool
-
+Run P2Pool with the "--net isracoin" option.
+Run your miner program, connecting to 127.0.0.1 on port 1948.
+Forward port 1947 to the host running P2Pool.
