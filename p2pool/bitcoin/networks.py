@@ -860,7 +860,7 @@ isracoin=math.Object(
         POW_FUNC=lambda data: pack.IntType(256).unpack(__import__('ltc_scrypt').getPoWHash(data)),
         BLOCK_PERIOD=60, # s
         SYMBOL='ISR',
-        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'isracoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/isracoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.isracoin'), 'blitzcoin.conf'),
+        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'isracoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/isracoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.isracoin'), 'isracoin.conf'),
         BLOCK_EXPLORER_URL_PREFIX='http://bexplorer.israelcoin.org/block/',
         ADDRESS_EXPLORER_URL_PREFIX='http://bexplorer.israelcoin.org/address/',
         TX_EXPLORER_URL_PREFIX='http://bexplorer.israelcoin.org/tx/',
