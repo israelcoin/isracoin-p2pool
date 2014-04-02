@@ -47,41 +47,6 @@
   </head>
 
   <body>
-   <div class="navbar navbar-default">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-	
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="navbar-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-<img src="img/digi.png" style="float:left;height:40px;margin-right:4px;width:40px;">
-          <a class="navbar-brand" href="/">OmarG's GPUcoin P2Pool (<span class="symbol upper"></span>)</a>
-		   </div>
-  <div class="navbar-collapse collapse navbar-responsive-collapse">
-    <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html">P2Pool Stats</a></li>
-
-                 <li><a href="graphs.html">Graphs</a><li>
-
-              <li><a href="http://www.gpucoin.net//">What is GPUcoin?</a></li>
-
-              <li><a href="https://bittrex.com/Market/Index?MarketName=BTC-GPUC">GPUcoin Exchange (Bittrex)</a></li>
-
-              <li><a href="https://www.twitter.com/OmarGPools">Contact (Twitter)</a></li>
-	   <li class="dropdown">
-			<a href="http://www.omargpools.ca/" class="dropdown-toggle" data-toggle="dropdown">OmarG's P2Pools <b class="caret"></b></a>
-			<ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li class="divider"></li>
-          <li class="dropdown-header">Dropdown header</li>
-          <li><a href="#">Separated link</a></li>
-          <li><a href="#">One more separated link</a></li>
-		  </ul>
-        </div><!--/.nav-collapse -->
     <!--<div id='ribbon'>
       <a href="https://github.com/johndoe75/p2pool-node-status">
         <img style="position: absolute; top: 0; right: 0; border: 0;" src="img/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
@@ -107,8 +72,8 @@
         <p>Special miner + config needed: "vertminer --scrypt-vert -Q 0 -o <span class='node'></span> -u
         Your<span class='currency'></span>PayoutAddress -p x"</p>
       </div>
-      <div class="alert alert-info">
-        <!--<p>message</p>-->
+      <div class="alert alert-info hidden">
+         <p>xxx</p>
       </div>
 
       <center>
@@ -121,130 +86,25 @@
         </div>
       </center>
       <div id='graph'></div>
-	  
-	    <div class="well" style="margin:0 auto;margin-top:20px;width:1000px">
-        <table id="specs" class="table table-striped" style="width:1000px"><tbody>
-<ul class="nav nav-tabs" style="margin-bottom: 15px;">
-  <li class="active"><a href="#home" data-toggle="tab">Getting Started</a></li>
-  <li class=""><a href="#profile" data-toggle="tab">P2Pool PPLNS</a></li>
-  <li class=""><a href="#profile1" data-toggle="tab">P2Pool Tips</a></li>
-    <li class=""><a href="#profile2" data-toggle="tab">Manual Share Difficulty</a></li>
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      Dropdown <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="#dropdown1" data-toggle="tab">Action</a></li>
-      <li class="divider"></li>
-      <li><a href="#dropdown2" data-toggle="tab">Another action</a></li>
-    </ul>
-  </li>
-</ul>
-<div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade active in" id="home">
-   <div class="well well-lg">
-   <div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">    <p><center><h4><i>OmarG's GPUcoin P2Pool Charges a 1% Pool Fee</i></h4></h3>
-  </div>
-  <div class="panel-body">
-    <center><h4>Hosted in Hamilton, Ontario <img src="img/Canada.gif" width="5%" height="5%"/> </center></h4> 
-
-<center><h4>How to Connect</center></h4>
-<center><h4>URL: OmarGPools.ca:9404</center></h4>
-<center><h4>(Backup URL: OmarGPools.co:9404)</center></h4>
-<center><h4>Username: Your GPUcoin Payout Address
-</center></h4>
-<center><h4>
-Password: x<center><h4></p>
-  </div>
-  </div>
-</div>
-
-
-   </div>
-  <div class="tab-pane fade" id="profile">
-   <div class="well well-lg">
-    <div class="panel panel-info">
-  <div class="panel-heading">
-    <h4 class="panel-info">    <p><center><h4><i>Payment System</i></h4></h4>
-  </div>
-  <div class="panel-body">
-   <p><center><h4>It takes about 48 Hours to have full payments with the PPLNS system P2Pool uses. </h4>
-<h4>	There is also variance in P2Pool and since the P2Pool network is a small percentage of the whole network you'll only be paid when the P2Pool network finds a block.</h4>
-<h4> The payments in the long term should be higher with P2Pool due to the extra transaction fees given to P2Pool workers.</h4>
-</center>
-	</p>
-	</div>
-  </div>
-  </div>
-  </div>
-  
-  <div class="tab-pane fade" id="profile1">
-   <div class="well well-lg">
-    <div class="panel panel-info">
-  <div class="panel-heading">
-    <h4 class="panel-info">    <p><center><h4><i>P2Pool Tips</i></h4></h4>
-  </div>
-  <div class="panel-body">
-   <p><center><h4>Efficiency is a measure of our payouts versus the rest of the P2Pool network</h4>
-   <h4>DOA shares payout and do not negatively affect payout as long as your DOA is below the total DOA</h4>
-<h4> To reduce stales, reduce your intensity. The payouts are higher when keeping intensity below 18 due to more accepted shares.</h4>
-<h4> Use the follow settings: --queue 0 --scan-time 1 -- expiry 1</h4>
-<h4> P2Pool shares expire within 10 seconds, this is why you see "stratum requesting work restart" so often</h4>
-</div>
-</div>
-</div>
-</div>
-<div class="tab-pane fade" id="profile2">
-   <div class="well well-lg">
-    <div class="panel panel-info">
-  <div class="panel-heading">
-    <h4 class="panel-info">    <p><center><h4><i>Manual Share Difficulty</i></h4></h4>
-  </div>
-  <div class="panel-body">
-   <p><center>Reccomended Share Difficulty</p>
-<p>1 +0.00000116</p>
-<p>5 +0.00000582</p>
-<p>10 +0.00001164</p>
-<p>50 +0.00005821</p>
-<p>100 +0.00011641</p>
-<p>250 +0.00029103</p>
-<p>500 +0.00058207</p>
-<p>750 +0.00087310</p>
-<p>1000 +0.00116414</p>
-
-<h4>Add this number to the end of your username (wallet address)</h4>
-<h4>Example: WalletAddress+0.00116414</h4>
-
-</div>
-</div>
-</center>
-	</p>
-	</div>
-  </div>
-  </div>
-
-</div>
 
       <h4>Status</h4>
       <table id='status' class="table table-hover" border='0'>
         <tr>
           <td width='25%'>Local rate:</td>
-          <td width='25%' class='text-right'><span id='local_rate'class="label label-success"></span></td>
+          <td width='25%' class='text-right'><span id='local_rate'></span></td>
           <td width='25%'>Shares:</td>
-          <td width='25%' class='text-right'><span id='shares' class="label label-success"></span></td>
+          <td width='25%' class='text-right'><span id='shares'></span></td>
         </tr>
         <tr>
-          <td width='25%'>Global P2Pool Rate:</td>
+          <td width='25%'>Global pool rate:</td>
           <td width='25%' class='text-right'><span id='global_rate'></span></td>
-          <td width='25%'>Share difficulty (P2Pool Minimum):</td>
+          <td width='25%'>Share difficulty (pool minimum):</td>
           <td width='25%' class='text-right'><span id='share_difficulty'></span></td>
         </tr>
         <tr>
-          <td width='25%'><span class='currency'></span> Network Hashrate (Estimate):</td>
+          <td width='25%'><span class='currency'></span> network hashrate (estimate):</td>
           <td width='25%' class='text-right'><span id='network_rate'></span></td>
-          <td width='25%'>Network Block Difficulty:</td>
+          <td width='25%'>Network block difficulty:</td>
           <td width='25%' class='text-right'><span id='block_difficulty'></span></td>
         </tr>
         <tr>
@@ -290,9 +150,9 @@ Password: x<center><h4></p>
         <thead><tr>
           <th class='text-left'><span class='currency'></span> Address</th>
           <th class='text-right'>Hashrate</th>
-          <th class='text-right'>DOA Hashrate (DOA %)</th>
-          <th class='text-right'>Share difficulty</th>
-          <th class='text-right'>Time to share</th>
+          <th class='text-right'>DOA Hashrate</th>
+          <th id='plus1' class='text-right'>Share difficulty</th>
+          <th id='plus2' class='text-right'>Time to share</th>
           <th class='text-right'>Predicted payout</th>
         </tr></thead>
         <tbody id='active_miners'>
@@ -314,22 +174,6 @@ Password: x<center><h4></p>
         <tbody id='recent_blocks'>
         </tbody>
       </table>
-	   <div style="border-top: 1px solid #ddd;padding:8px;text-align:center;">
-    <p><code>P2Pool version: <span id="version"></span></code>
-<p><code>Hosted by OmarG</span></code>  
-<p><code>GPUCoin <a href="gpucoin:GLbHuMsm8MEDQNtNy7UCvwRwrjxy18pNnD">GLbHuMsm8MEDQNtNy7UCvwRwrjxy18pNnD</a></code></p>
-<p> <code>BTC <a href="bitcoin:1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG">1HBGNY7oUAJiJh3UbVuo6Q39nLpdnu5ZiG</a></code></p>
-  </div>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-48700221-1', 'omargpools.ca');
-  ga('send', 'pageview');
-
-</script>
 
     </div> <!-- /container -->
     <script type="text/javascript">
@@ -393,6 +237,16 @@ Password: x<center><h4></p>
 
     $(document).on('update_miners', function(e, eventInfo) {
       local_hashrate= 0; local_doa_hashrate= 0;
+
+      backend_plus = ((typeof local_stats.miner_last_difficulties !== 'undefined') ? true : false);
+
+      if (backend_plus) {
+        $('#plus1').removeClass('hidden');      
+        $('#plus2').removeClass('hidden');
+      } else {
+        $('#plus1').addClass('hidden');
+        $('#plus2').addClass('hidden');
+      }
       
       $('#active_miners').empty();
       
@@ -422,16 +276,21 @@ Password: x<center><h4></p>
         tr.append($('<td/>').attr('class', 'text-right')
           .append(formatHashrate(doa) + ' (' + doa_prop.toFixed(2) + '%)'));
 
-        diff= parseFloat(local_stats.miner_last_difficulties[address]) || 0;
-        time_to_share= (parseInt(local_stats.attempts_to_share) / parseInt(hashrate)
-         * (diff / parseFloat(global_stats.min_difficulty))) || 0;
+        if (backend_plus) {
+          diff = parseFloat(local_stats.miner_last_difficulties[address]) || 0;
+          
+          time_to_share = (parseInt(local_stats.attempts_to_share) / parseInt(hashrate)
+           * (diff / parseFloat(global_stats.min_difficulty))) || 0;
+           
+          diff = diff.toFixed(3) + ' (' + formatInt(diff*65536) + ')';
+          time_to_share = (''+time_to_share).formatSeconds();
 
-        tr.append($('<td/>').attr('class', 'text-right')
-          .append(diff.toFixed(3) +
-        ' (' + formatInt(diff*65536) + ')'));
+          tr.append($('<td/>').attr('class', 'text-right')
+           .append(diff));
 
-        tr.append($('<td/>').attr('class', 'text-right')
-          .append((''+time_to_share).formatSeconds()));
+          tr.append($('<td/>').attr('class', 'text-right')
+           .append(time_to_share));
+        }
 
         payout= current_payouts[address];
 
@@ -467,9 +326,13 @@ Password: x<center><h4></p>
 
       $('#network_rate').text(formatHashrate(global_stats.network_hashrate));
 
-      block_diff=global_stats.network_block_difficulty
-      $('#block_difficulty').text(block_diff.toFixed(3) +
-        ' (' + formatInt(block_diff*65536) + ')');
+      block_diff = global_stats.network_block_difficulty;
+      if (typeof block_diff !== 'undefined') {
+        block_diff = block_diff.toFixed(3) + ' (' + formatInt(block_diff*65536) + ')';
+      } else {
+        block_diff = 'n/a';
+      }
+      $('#block_difficulty').text(block_diff);
       
 
       share_diff=parseFloat(global_stats.min_difficulty);
